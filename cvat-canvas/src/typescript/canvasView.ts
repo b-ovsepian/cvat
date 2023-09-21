@@ -988,36 +988,10 @@ export class CanvasViewImpl implements CanvasView, Listener {
                     return circle;
                 },
             });
-
-            if (shape.type === 'rect') {
-                // Calculate the center coordinates of the shape
-                const centerX = shape.cx();
-                const centerY = shape.cy();
-
-                // Create a circle element for the center point
-                const centerPoint = this.adoptedContent
-                    .circle((2 * this.configuration.controlPointsSize) / this.geometry.scale)
-                    .center(centerX, centerY)
-                    .addClass('cvat_canvas_shape_point')
-                    .attr({
-                        'fill-opacity': 1,
-                        'stroke-width': consts.POINTS_STROKE_WIDTH / this.geometry.scale,
-                    });
-
-                // Add the center point to the shape
-                (shape as any).remember('_centerPoint', centerPoint);
-            }
         } else {
             (shape as any).selectize(false, {
                 deepSelect: true,
             });
-
-            // Remove the center point if it exists
-            const centerPoint = shape.remember('_centerPoint');
-            if (centerPoint) {
-                centerPoint.remove();
-                shape.forget('_centerPoint');
-            }
         }
 
         const handler = shape.remember('_selectHandler');
